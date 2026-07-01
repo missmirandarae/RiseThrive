@@ -1,79 +1,139 @@
+import Link from "next/link";
+import Image from "next/image";
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-100">
-      {/* Hero */}
-      <section className="bg-gradient-to-r from-cyan-500 via-green-500 to-orange-500 text-white py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-6">
-            Rise & Thrive Community Connection
-          </h1>
+    <main className="min-h-screen bg-gray-50">
 
-          <p className="text-xl mb-8">
-            Empowering Youth • Strengthening Families • Building Community
-          </p>
+      {/* Navigation */}
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
-              Enroll Now
-            </button>
+      <header className="sticky top-0 z-50 bg-white shadow">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
 
-            <button className="bg-orange-500 px-6 py-3 rounded-lg font-semibold hover:bg-orange-600">
-              Parent Portal
-            </button>
-          </div>
-        </div>
-      </section>
+          <Link href="/" className="flex items-center gap-4">
 
-      {/* Programs */}
-      <section className="max-w-6xl mx-auto py-16 px-6">
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Our Programs
-        </h2>
+            <Image
+              src="/logo.png"
+              alt="Rise & Thrive"
+              width={70}
+              height={70}
+              priority
+            />
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            "Academic Enrichment",
-            "Leadership Development",
-            "Mental Wellness",
-            "Creative Arts",
-            "Life Skills",
-            "Mentorship",
-          ].map((program) => (
-            <div
-              key={program}
-              className="bg-white rounded-xl shadow-lg p-6 text-center"
-            >
-              <h3 className="text-xl font-semibold">{program}</h3>
+            <div>
+              <h1 className="text-4xl font-bold text-cyan-700">
+                Rise & Thrive
+              </h1>
+
+              <p className="text-gray-600">
+                Community Connection
+              </p>
             </div>
-          ))}
+
+          </Link>
+
+          <nav className="flex items-center gap-8 text-lg">
+
+            <Link href="/">Home</Link>
+
+            <Link href="/about">
+              About
+            </Link>
+
+            <Link href="/programs">
+              Programs
+            </Link>
+
+            <Link href="/contact">
+              Contact
+            </Link>
+
+            <Link
+              href="/enroll"
+              className="rounded-lg bg-green-600 px-5 py-3 font-semibold text-white transition hover:bg-green-700"
+            >
+              Enroll Now
+            </Link>
+
+            <Link
+              href="/parent"
+              className="rounded-lg bg-orange-500 px-5 py-3 font-semibold text-white transition hover:bg-orange-600"
+            >
+              Parent Portal
+            </Link>
+
+            <Link
+              href="/admin"
+              className="rounded-lg bg-cyan-700 px-5 py-3 font-semibold text-white transition hover:bg-cyan-800"
+            >
+              Admin
+            </Link>
+
+          </nav>
+
         </div>
+      </header>
+
+      {/* Hero */}
+
+      <section className="bg-white">
+
+        <div className="mx-auto max-w-7xl px-6 py-20">
+
+          <h2 className="mb-8 text-6xl font-bold text-cyan-700">
+            About Rise & Thrive
+          </h2>
+
+          <p className="max-w-5xl text-2xl leading-relaxed text-gray-700">
+            Rise & Thrive Community Connection is dedicated to empowering
+            youth, strengthening families, and building a healthier
+            community. We provide a safe, welcoming environment where
+            children can learn, grow, and develop through educational
+            enrichment, leadership development, mentoring, wellness,
+            and creative activities.
+          </p>
+
+        </div>
+
       </section>
 
-      {/* Contact */}
-      <section className="bg-white py-16">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-4xl font-bold mb-6">Contact Us</h2>
+      {/* Cards */}
 
-          <p className="text-lg">
-            📍 2848 Elm St.
-            <br />
-            Lima, OH 45805
-          </p>
+      <section className="pb-20">
 
-          <p className="mt-4">
-            📞 (419) 236-7697
-          </p>
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-2">
 
-          <p>
-            ✉️ risethrive26@gmail.com
-          </p>
+          <div className="rounded-2xl border bg-cyan-50 p-10 shadow">
+
+            <h3 className="mb-5 text-5xl font-bold text-cyan-700">
+              Our Mission
+            </h3>
+
+            <p className="text-xl leading-relaxed text-gray-700">
+              To inspire confidence, promote lifelong learning, and
+              provide opportunities that help children and families
+              reach their full potential.
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl border bg-orange-50 p-10 shadow">
+
+            <h3 className="mb-5 text-5xl font-bold text-orange-600">
+              Our Vision
+            </h3>
+
+            <p className="text-xl leading-relaxed text-gray-700">
+              A thriving community where every child is supported,
+              encouraged, and equipped with the skills to succeed.
+            </p>
+
+          </div>
+
         </div>
+
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white text-center py-6">
-        © {new Date().getFullYear()} Rise & Thrive Community Connection
-      </footer>
     </main>
   );
 }
