@@ -1,6 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const adminEmails = [
+  "risethrive26@gmail.com",
+  "raeyeager05@icloud.com",
+];
+
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request,
@@ -32,10 +37,10 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Get the currently logged-in user
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  console.log("Middleware user:", user?.email);
 
   const pathname = request.nextUrl.pathname;
 
@@ -45,8 +50,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    // Only your admin account can access /admin
-    if (user.email !== "risethrive26@gmail.com") {
+    if (!user.email || !adminEmails.includes(user.email)) {
       return NextResponse.redirect(new URL("/parent", request.url));
     }
   }
