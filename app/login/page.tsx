@@ -31,20 +31,16 @@ function LoginForm() {
       return;
     }
 
-const adminEmails = [
+cconst adminEmails = [
+  "mcclellandeshanna82@icloud.com",
   "raeyeager05@icloud.com",
-  "mcclellan-deshanna82@icloud.com",
 ];
 
-if (
-  data.user.email &&
-  adminEmails.includes(data.user.email)
-) {
+if (adminEmails.includes(data.user.email ?? "")) {
   router.replace("/admin");
 } else {
   router.replace("/parent");
 }
-
     router.refresh();
   }
 
