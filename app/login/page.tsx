@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -19,11 +19,10 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    const { data, error } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     setLoading(false);
 
@@ -32,7 +31,10 @@ export default function LoginPage() {
       return;
     }
 
-    if (data.user.email === "risethrive26@gmail.com") {
+    if (
+      data.user.email === "risethrive26@gmail.com" ||
+      data.user.email === "raeyeager05@icloud.com"
+    ) {
       router.replace("/admin");
     } else {
       router.replace("/parent");
@@ -53,9 +55,7 @@ export default function LoginPage() {
           </div>
 
           <h1 className="text-4xl font-bold text-cyan-700">
-            {role === "admin"
-              ? "Admin Login"
-              : "Parent Login"}
+            {role === "admin" ? "Admin Login" : "Parent Login"}
           </h1>
 
           <p className="mt-2 text-gray-500">
@@ -83,7 +83,7 @@ export default function LoginPage() {
 
         <button
           disabled={loading}
-          className={`w-full rounded-xl py-4 text-lg font-bold text-white transition ${
+          className={`w-full rounded-xl py-4 text-lg font-bold text-white ${
             role === "admin"
               ? "bg-cyan-700 hover:bg-cyan-800"
               : "bg-orange-500 hover:bg-orange-600"
@@ -103,5 +103,13 @@ export default function LoginPage() {
         </div>
       </form>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
