@@ -1,105 +1,79 @@
-"use client";
-
-import Link from "next/link";
-import { supabase } from "@/utils/supabase";
-import AdminTable from "@/components/AdminTable";
-
-export default async function AdminPage() {
-  // Fetch students
-  const { data: students, error: studentsError } = await supabase
-    .from("students")
-    .select("*");
-
-  // Fetch attendance
-  const { data: attendance, error: attendanceError } = await supabase
-    .from("attendance")
-    .select("*");
-
-  // Fetch payments
-  const { data: payments, error: paymentsError } = await supabase
-    .from("payments")
-    .select("*");
-
-  const checkedInCount =
-    attendance?.filter((a: any) => !a.check_out).length ?? 0;
-  const totalRevenue =
-    payments?.reduce((sum: number, p: any) => sum + (p.amount || 0), 0) ?? 0;
-
-  const error =
-    studentsError?.message ||
-    attendanceError?.message ||
-    paymentsError?.message ||
-    null;
-
+export default function Home() {
   return (
-    <div className="p-8">
-      <h1 className="mb-6 text-2xl font-bold">Admin Dashboard</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded shadow p-4 flex flex-col items-center">
-          <div className="text-lg font-semibold">Total Students</div>
-          <div className="text-2xl">{students?.length ?? 0}</div>
+    <main className="min-h-screen bg-gray-100">
+      {/* Hero */}
+      <section className="bg-gradient-to-r from-cyan-500 via-green-500 to-orange-500 text-white py-20">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-5xl font-bold mb-6">
+            Rise & Thrive Community Connection
+          </h1>
+
+          <p className="text-xl mb-8">
+            Empowering Youth • Strengthening Families • Building Community
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <button className="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
+              Enroll Now
+            </button>
+
+            <button className="bg-orange-500 px-6 py-3 rounded-lg font-semibold hover:bg-orange-600">
+              Parent Portal
+            </button>
+          </div>
         </div>
-        <div className="bg-white rounded shadow p-4 flex flex-col items-center">
-          <div className="text-lg font-semibold">Checked In</div>
-          <div className="text-2xl">{checkedInCount}</div>
+      </section>
+
+      {/* Programs */}
+      <section className="max-w-6xl mx-auto py-16 px-6">
+        <h2 className="text-4xl font-bold text-center mb-12">
+          Our Programs
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            "Academic Enrichment",
+            "Leadership Development",
+            "Mental Wellness",
+            "Creative Arts",
+            "Life Skills",
+            "Mentorship",
+          ].map((program) => (
+            <div
+              key={program}
+              className="bg-white rounded-xl shadow-lg p-6 text-center"
+            >
+              <h3 className="text-xl font-semibold">{program}</h3>
+            </div>
+          ))}
         </div>
-        <div className="bg-white rounded shadow p-4 flex flex-col items-center">
-          <div className="text-lg font-semibold">Total Revenue</div>
-          <div className="text-2xl">${totalRevenue}</div>
+      </section>
+
+      {/* Contact */}
+      <section className="bg-white py-16">
+        <div className="max-w-4xl mx-auto text-center px-6">
+          <h2 className="text-4xl font-bold mb-6">Contact Us</h2>
+
+          <p className="text-lg">
+            📍 2848 Elm St.
+            <br />
+            Lima, OH 45805
+          </p>
+
+          <p className="mt-4">
+            📞 (419) 236-7697
+          </p>
+
+          <p>
+            ✉️ risethrive26@gmail.com
+          </p>
         </div>
-        <div className="bg-white rounded shadow p-4 flex flex-col items-center">
-          <div className="text-lg font-semibold">Attendance Records</div>
-          <div className="text-2xl">{attendance?.length ?? 0}</div>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Link
-          href="/admin/students"
-          className="bg-blue-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-blue-600 transition"
-        >
-          <span className="text-xl font-bold">Students</span>
-          <span>Manage student info</span>
-        </Link>
-        <Link
-          href="/admin/payments"
-          className="bg-green-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-green-600 transition"
-        >
-          <span className="text-xl font-bold">Payments</span>
-          <span>View & record payments</span>
-        </Link>
-        <Link
-          href="/admin/billing"
-          className="bg-yellow-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-yellow-600 transition"
-        >
-          <span className="text-xl font-bold">Billing</span>
-          <span>Manage billing</span>
-        </Link>
-        <Link
-          href="/admin/reports"
-          className="bg-purple-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-purple-600 transition"
-        >
-          <span className="text-xl font-bold">Reports</span>
-          <span>Attendance & payment reports</span>
-        </Link>
-        <Link
-          href="/parent"
-          className="bg-pink-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-pink-600 transition"
-        >
-          <span className="text-xl font-bold">Parent Portal</span>
-          <span>View as parent</span>
-        </Link>
-        <Link
-          href="/admin/enroll"
-          className="bg-indigo-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-indigo-600 transition"
-        >
-          <span className="text-xl font-bold">Enroll Student</span>
-          <span>Add new student</span>
-        </Link>
-      </div>
-      {error && (
-        <div className="mb-4 text-red-600 bg-red-100 rounded p-2">{error}</div>
-      )}
-      <AdminTable students={students ?? []} attendance={attendance ?? []} />
-    </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white text-center py-6">
+        © {new Date().getFullYear()} Rise & Thrive Community Connection
+      </footer>
+    </main>
   );
 }
