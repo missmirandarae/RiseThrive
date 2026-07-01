@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import AdminTable from "@/components/AdminTable";
+import Logo from "@/components/logo";
 
 export default async function AdminPage() {
   const { data: studentsData, error } = await supabase
@@ -34,15 +35,19 @@ export default async function AdminPage() {
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto max-w-7xl">
 
-        <h1 className="mb-8 text-5xl font-bold text-cyan-700">
-          Admin Dashboard
-        </h1>
+        <div className="mb-10 flex flex-col items-center justify-between gap-6 rounded-2xl bg-white p-8 shadow-xl md:flex-row">
+          <Logo />
+          <div className="text-right">
+            <h1 className="text-5xl font-bold text-cyan-700">Admin Dashboard</h1>
+            <p className="mt-2 text-gray-500">Welcome to Rise & Thrive Community Connect</p>
+          </div>
+        </div>
 
         {/* Dashboard Cards */}
 
         <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
-          <div className="rounded-xl bg-cyan-600 p-6 text-white shadow-lg">
+          <div className="rounded-2xl bg-cyan-600 p-6 text-white shadow-xl transition hover:-translate-y-1 hover:shadow-2xl">
             <p className="text-sm uppercase opacity-80">
               Students
             </p>
@@ -52,7 +57,7 @@ export default async function AdminPage() {
             </h2>
           </div>
 
-          <div className="rounded-xl bg-green-600 p-6 text-white shadow-lg">
+          <div className="rounded-2xl bg-green-600 p-6 text-white shadow-xl transition hover:-translate-y-1 hover:shadow-2xl">
             <p className="text-sm uppercase opacity-80">
               Checked In
             </p>
@@ -62,7 +67,7 @@ export default async function AdminPage() {
             </h2>
           </div>
 
-          <div className="rounded-xl bg-purple-600 p-6 text-white shadow-lg">
+          <div className="rounded-2xl bg-purple-600 p-6 text-white shadow-xl transition hover:-translate-y-1 hover:shadow-2xl">
             <p className="text-sm uppercase opacity-80">
               Payments
             </p>
@@ -72,7 +77,7 @@ export default async function AdminPage() {
             </h2>
           </div>
 
-          <div className="rounded-xl bg-orange-600 p-6 text-white shadow-lg">
+          <div className="rounded-2xl bg-orange-600 p-6 text-white shadow-xl transition hover:-translate-y-1 hover:shadow-2xl">
             <p className="text-sm uppercase opacity-80">
               Revenue
             </p>
@@ -90,7 +95,7 @@ export default async function AdminPage() {
 
           <Link
             href="/admin"
-            className="rounded-xl bg-cyan-600 p-6 text-white shadow-lg transition hover:scale-105"
+            className="rounded-2xl bg-cyan-600 p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl"
           >
             <h2 className="text-2xl font-bold">
               👨‍👩‍👧 Students
@@ -103,7 +108,7 @@ export default async function AdminPage() {
 
           <Link
             href="/admin/payments"
-            className="rounded-xl bg-green-600 p-6 text-white shadow-lg transition hover:scale-105"
+            className="rounded-2xl bg-green-600 p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl"
           >
             <h2 className="text-2xl font-bold">
               💳 Payments
@@ -116,7 +121,7 @@ export default async function AdminPage() {
 
           <Link
             href="/admin/billing"
-            className="rounded-xl bg-blue-600 p-6 text-white shadow-lg transition hover:scale-105"
+            className="rounded-2xl bg-blue-600 p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl"
           >
             <h2 className="text-2xl font-bold">
               🧾 Billing
@@ -129,7 +134,7 @@ export default async function AdminPage() {
 
           <Link
             href="/admin/reports"
-            className="rounded-xl bg-purple-600 p-6 text-white shadow-lg transition hover:scale-105"
+            className="rounded-2xl bg-purple-600 p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl"
           >
             <h2 className="text-2xl font-bold">
               📊 Reports
@@ -142,7 +147,7 @@ export default async function AdminPage() {
 
           <Link
             href="/parent"
-            className="rounded-xl bg-orange-600 p-6 text-white shadow-lg transition hover:scale-105"
+            className="rounded-2xl bg-orange-600 p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl"
           >
             <h2 className="text-2xl font-bold">
               👨‍👩‍👧 Parent Portal
@@ -155,7 +160,7 @@ export default async function AdminPage() {
 
           <Link
             href="/admin/students/new"
-            className="rounded-xl bg-pink-600 p-6 text-white shadow-lg transition hover:scale-105"
+            className="rounded-2xl bg-pink-600 p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-2xl"
           >
             <h2 className="text-2xl font-bold">
               ➕ Enroll Student
@@ -168,10 +173,13 @@ export default async function AdminPage() {
 
         </div>
 
-        <AdminTable
-          students={students}
-          attendance={attendance}
-        />
+        <div className="rounded-2xl bg-white p-6 shadow-xl">
+          <h2 className="mb-6 text-2xl font-bold text-cyan-700">Student Management</h2>
+          <AdminTable
+            students={students}
+            attendance={attendance}
+          />
+        </div>
 
       </div>
     </main>
