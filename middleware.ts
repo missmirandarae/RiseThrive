@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const adminEmails = [
-  "risethrive26@gmail.com",
+  "mcclellan-deshanna82@icloud.com",
   "raeyeager05@icloud.com",
 ];
 
