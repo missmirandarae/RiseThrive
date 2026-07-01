@@ -1,112 +1,61 @@
-import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+"use client";
 
-export default async function ParentPaymentsPage() {
-  const { data: student } = await supabase
-    .from("students")
-    .select("id, child_name, monthly_tuition")
-    .limit(1)
-    .single();
+import { useState } from "react";
 
-  const { data: payments } = await supabase
-    .from("payments")
-    .select("*")
-    .eq("student_id", student?.id)
-    .order("created_at", { ascending: false });
+export default function ParentPaymentsPage() {
+  const [amount, setAmount] = useState(300);
+  const [loading, setLoading] = useState(false);
 
-  const tuition = Number(student?.monthly_tuition ?? 250);
+  async function checkout() {
+    setLoading(true);
 
-  const totalPaid =
-    payments?.reduce(
-      (sum: number, payment: any) => sum + Number(payment.amount),
-      0
-    ) ?? 0;
+    const res = await fetch("/api/stripe/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount,
+      }),
+    });
 
-  const balance = Math.max(tuition - totalPaid, 0);
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+      return;
+    }
+
+    alert("Unable to start checkout.");
+    setLoading(false);
+  }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-6xl">
-
-        <h1 className="mb-8 text-5xl font-bold text-blue-700">
-          Payments
+    <main className="mx-auto max-w-xl p-8">
+      <div className="rounded-2xl bg-white p-8 shadow-xl">
+        <h1 className="mb-6 text-4xl font-bold text-cyan-700">
+          Tuition Payment
         </h1>
 
-        <div className="mb-8 grid gap-6 md:grid-cols-3">
+        <p className="mb-6 text-gray-600">
+          Enter the amount you'd like to pay.
+        </p>
 
-          <div className="rounded-xl bg-green-600 p-6 text-white shadow">
-            <p>Monthly Tuition</p>
-            <h2 className="text-3xl font-bold">
-              ${tuition.toFixed(2)}
-            </h2>
-          </div>
+        <input
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          className="mb-6 w-full rounded-lg border p-4 text-2xl"
+          min={1}
+        />
 
-          <div className="rounded-xl bg-cyan-600 p-6 text-white shadow">
-            <p>Total Paid</p>
-            <h2 className="text-3xl font-bold">
-              ${totalPaid.toFixed(2)}
-            </h2>
-          </div>
-
-          <div className="rounded-xl bg-red-600 p-6 text-white shadow">
-            <p>Balance Due</p>
-            <h2 className="text-3xl font-bold">
-              ${balance.toFixed(2)}
-            </h2>
-          </div>
-
-        </div>
-
-        <div className="overflow-hidden rounded-xl bg-white shadow-lg">
-          <table className="w-full">
-            <thead className="bg-blue-700 text-white">
-              <tr>
-                <th className="p-4 text-left">Date</th>
-                <th className="p-4 text-left">Amount</th>
-                <th className="p-4 text-left">Method</th>
-                <th className="p-4 text-left">Notes</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {payments && payments.length > 0 ? (
-                payments.map((payment: any) => (
-                  <tr key={payment.id} className="border-b">
-                    <td className="p-4">
-                      {new Date(payment.created_at).toLocaleDateString()}
-                    </td>
-
-                    <td className="p-4 font-semibold text-green-700">
-                      ${Number(payment.amount).toFixed(2)}
-                    </td>
-
-                    <td className="p-4">
-                      {payment.method}
-                    </td>
-
-                    <td className="p-4">
-                      {payment.notes || "-"}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={4} className="p-8 text-center text-gray-500">
-                    No payment history found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <Link
-          href="/parent"
-          className="mt-8 inline-block rounded-lg bg-blue-700 px-6 py-3 text-white hover:bg-blue-800"
+        <button
+          onClick={checkout}
+          disabled={loading}
+          className="w-full rounded-xl bg-green-600 py-4 text-xl font-bold text-white hover:bg-green-700"
         >
-          ← Parent Portal
-        </Link>
-
+          {loading ? "Redirecting..." : "💳 Pay with Stripe"}
+        </button>
       </div>
     </main>
   );
