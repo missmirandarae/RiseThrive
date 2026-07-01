@@ -25,15 +25,21 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <nav className="flex gap-6 font-medium">
+        <nav className="flex items-center gap-6 font-medium">
           <Link href="/">Home</Link>
+
           <Link href="/about">About</Link>
+
           <Link href="/programs">Programs</Link>
+
           <Link href="/contact">Contact</Link>
 
-          <button className="rounded-lg bg-orange-500 px-5 py-2 text-white hover:bg-orange-600">
+          <Link
+            href="/parent"
+            className="rounded-lg bg-orange-500 px-5 py-2 text-white hover:bg-orange-600"
+          >
             Parent Portal
-          </button>
+          </Link>
         </nav>
       </div>
     </header>
