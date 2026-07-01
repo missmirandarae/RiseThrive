@@ -6,27 +6,37 @@ export default function ParentPaymentsPage() {
   const [amount, setAmount] = useState(300);
   const [loading, setLoading] = useState(false);
 
+  // Temporary student for testing
+  const studentId = "f8a41147-cc82-4a25-90fa-5e20f12a8d11";
+
   async function checkout() {
     setLoading(true);
 
-    const res = await fetch("/api/stripe/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount,
-      }),
-    });
+    try {
+      const res = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount,
+          studentId,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.url) {
-      window.location.href = data.url;
-      return;
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+
+      alert(data.error ?? "Unable to start checkout.");
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
     }
 
-    alert("Unable to start checkout.");
     setLoading(false);
   }
 
@@ -52,7 +62,7 @@ export default function ParentPaymentsPage() {
         <button
           onClick={checkout}
           disabled={loading}
-          className="w-full rounded-xl bg-green-600 py-4 text-xl font-bold text-white hover:bg-green-700"
+          className="w-full rounded-xl bg-green-600 py-4 text-xl font-bold text-white hover:bg-green-700 disabled:opacity-50"
         >
           {loading ? "Redirecting..." : "💳 Pay with Stripe"}
         </button>

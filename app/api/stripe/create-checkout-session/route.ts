@@ -3,34 +3,33 @@ import { stripe } from "@/lib/stripe";
 
 export async function POST(request: Request) {
   try {
-    const { amount } = await request.json();
+    const { amount, studentId } = await request.json();
 
     const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+
       payment_method_types: ["card"],
 
-      mode: "payment",
+      metadata: {
+        studentId,
+      },
 
       line_items: [
         {
+          quantity: 1,
           price_data: {
             currency: "usd",
-
+            unit_amount: amount * 100,
             product_data: {
               name: "Rise & Thrive Tuition",
             },
-
-            unit_amount: amount * 100,
           },
-
-          quantity: 1,
         },
       ],
 
-      success_url:
-        "https://rise-thrive-zeta.vercel.app/parent/payment-success",
+     success_url: "https://rise-thrive-zeta.vercel.app/parent/payment-success",
 
-      cancel_url:
-        "https://rise-thrive-zeta.vercel.app/parent/payments",
+cancel_url: "https://rise-thrive-zeta.vercel.app/parent/payments",
     });
 
     return NextResponse.json({
