@@ -31,7 +31,7 @@ export default function Home() {
         <h2 className="mb-6 text-4xl font-bold">Contact Us</h2>
         <p>2848 Elm St.<br/>Lima, OH 45805</p>
         <p className="mt-4">(419) 236-7697</p>
-        <p>risethrive26@gmail.com</p>
+        <p>mcclellan-deshanna82@icloud.com</p>
       </section>
     </main>
   );

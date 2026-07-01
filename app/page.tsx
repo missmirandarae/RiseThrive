@@ -140,7 +140,7 @@ export default function Home() {
 
         <p>(419) 236-7697</p>
 
-        <p>risethrive26@gmail.com</p>
+        <p>mcclellan-deshanna82@icloud.com</p>
 
         <p className="mt-4 text-gray-400">
           © {new Date().getFullYear()} Rise & Thrive Community Connection

@@ -31,14 +31,19 @@ function LoginForm() {
       return;
     }
 
-    if (
-      data.user.email === "risethrive26@gmail.com" ||
-      data.user.email === "raeyeager05@icloud.com"
-    ) {
-      router.replace("/admin");
-    } else {
-      router.replace("/parent");
-    }
+const adminEmails = [
+  "raeyeager05@icloud.com",
+  "mcclellan-deshanna82@icloud.com",
+];
+
+if (
+  data.user.email &&
+  adminEmails.includes(data.user.email)
+) {
+  router.replace("/admin");
+} else {
+  router.replace("/parent");
+}
 
     router.refresh();
   }
