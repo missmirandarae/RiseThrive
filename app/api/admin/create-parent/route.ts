@@ -12,10 +12,11 @@ export async function POST(request: Request) {
       );
     }
 
+    // Invite the parent
     const { data, error } =
       await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
         data: {
-          name,
+          full_name: name,
           role: "parent",
         },
         redirectTo:
@@ -29,9 +30,35 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!data.user) {
+      return NextResponse.json(
+        { error: "User was not created." },
+        { status: 500 }
+      );
+    }
+
+    // Create profile
+    const { error: profileError } = await supabaseAdmin
+      .from("profiles")
+      .upsert({
+        id: data.user.id,
+        email,
+        full_name: name,
+        role: "parent",
+      });
+
+    if (profileError) {
+      console.error(profileError);
+
+      return NextResponse.json(
+        { error: profileError.message },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({
       success: true,
-      user: data.user,
+      message: "Parent invited successfully.",
     });
   } catch (err) {
     console.error(err);
