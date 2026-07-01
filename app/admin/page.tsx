@@ -170,6 +170,16 @@ export default async function AdminPage() {
               Register a new student
             </p>
           </Link>
+          <Link
+  href="/admin/parents/new"
+  className="bg-pink-500 text-white rounded shadow p-6 flex flex-col items-center hover:bg-pink-600 transition"
+>
+  <span className="text-xl font-bold">
+    Parent Accounts
+  </span>
+
+  <span>Create Parent Account</span>
+</Link>
 
         </div>
 

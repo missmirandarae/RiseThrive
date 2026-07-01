@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const role = searchParams.get("role") ?? "parent";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,15 +16,14 @@ export default function LoginPage() {
 
   async function login(e: React.FormEvent) {
     e.preventDefault();
+
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    console.log("Login data:", data);
-    console.log("Login error:", error);
+    const { data, error } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
     setLoading(false);
 
@@ -30,26 +32,41 @@ export default function LoginPage() {
       return;
     }
 
-    alert("Login successful!");
+    if (data.user.email === "risethrive26@gmail.com") {
+      router.replace("/admin");
+    } else {
+      router.replace("/parent");
+    }
 
-    router.replace("/admin");
     router.refresh();
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-r from-cyan-600 via-green-500 to-orange-500 p-6">
       <form
         onSubmit={login}
-        className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg"
+        className="w-full max-w-md rounded-3xl bg-white p-10 shadow-2xl"
       >
-        <h1 className="mb-6 text-center text-3xl font-bold text-cyan-700">
-          Admin Login
-        </h1>
+        <div className="mb-8 text-center">
+          <div className="mb-4 text-6xl">
+            {role === "admin" ? "👩‍💼" : "👨‍👩‍👧"}
+          </div>
+
+          <h1 className="text-4xl font-bold text-cyan-700">
+            {role === "admin"
+              ? "Admin Login"
+              : "Parent Login"}
+          </h1>
+
+          <p className="mt-2 text-gray-500">
+            Sign in to continue
+          </p>
+        </div>
 
         <input
           type="email"
-          placeholder="Email"
-          className="mb-4 w-full rounded-lg border p-3"
+          placeholder="Email Address"
+          className="mb-4 w-full rounded-xl border p-4"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -58,19 +75,32 @@ export default function LoginPage() {
         <input
           type="password"
           placeholder="Password"
-          className="mb-6 w-full rounded-lg border p-3"
+          className="mb-6 w-full rounded-xl border p-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
         <button
-          type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-cyan-600 py-3 font-semibold text-white hover:bg-cyan-700 disabled:opacity-50"
+          className={`w-full rounded-xl py-4 text-lg font-bold text-white transition ${
+            role === "admin"
+              ? "bg-cyan-700 hover:bg-cyan-800"
+              : "bg-orange-500 hover:bg-orange-600"
+          }`}
         >
           {loading ? "Signing In..." : "Sign In"}
         </button>
+
+        <div className="mt-6 text-center">
+          <button
+            type="button"
+            onClick={() => router.push("/")}
+            className="text-cyan-700 hover:underline"
+          >
+            ← Back to Home
+          </button>
+        </div>
       </form>
     </main>
   );

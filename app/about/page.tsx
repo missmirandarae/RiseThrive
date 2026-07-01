@@ -1,50 +1,38 @@
-import Layout from "../../components/Layout";
+import Link from "next/link";
 
-export default function AboutPage() {
+export default function Home() {
   return (
-    <Layout>
-      <section className="max-w-6xl mx-auto px-6 py-20">
-
-        <h1 className="text-5xl font-bold text-cyan-700 mb-8">
-          About Rise & Thrive
-        </h1>
-
-        <p className="text-lg leading-8 text-gray-700">
-          Rise & Thrive Community Connection is dedicated to empowering
-          youth, strengthening families, and building a healthier community.
-          We provide a safe, welcoming environment where children can learn,
-          grow, and develop through educational enrichment, leadership
-          development, mentoring, wellness, and creative activities.
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-8 mt-12">
-
-          <div className="bg-cyan-50 p-8 rounded-xl shadow">
-            <h2 className="text-3xl font-bold text-cyan-700 mb-4">
-              Our Mission
-            </h2>
-
-            <p>
-              To inspire confidence, promote lifelong learning, and provide
-              opportunities that help children and families reach their full
-              potential.
-            </p>
+    <main className="min-h-screen bg-gray-100">
+      <header className="sticky top-0 z-50 bg-white shadow">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <h1 className="text-2xl font-bold text-cyan-700">Rise & Thrive</h1>
+          <div className="flex items-center gap-6 font-medium">
+            <Link href="/">Home</Link>
+            <a href="#programs">Programs</a>
+            <a href="#contact">Contact</a>
+            <Link href="/parent" className="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700">Parent Portal</Link>
+            <Link href="/admin" className="rounded-lg bg-cyan-700 px-4 py-2 text-white hover:bg-cyan-800">Admin</Link>
           </div>
+        </nav>
+      </header>
 
-          <div className="bg-orange-50 p-8 rounded-xl shadow">
-            <h2 className="text-3xl font-bold text-orange-600 mb-4">
-              Our Vision
-            </h2>
-
-            <p>
-              A thriving community where every child is supported,
-              encouraged, and equipped with the skills to succeed.
-            </p>
-          </div>
-
+      <section className="bg-gradient-to-r from-cyan-500 via-green-500 to-orange-500 py-24 text-white text-center">
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="mb-6 text-5xl font-bold">Rise & Thrive Community Connection</h2>
+          <p className="text-xl">Empowering Youth • Strengthening Families • Building Community</p>
         </div>
-
       </section>
-    </Layout>
+
+      <section id="programs" className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className="mb-10 text-center text-4xl font-bold">Our Programs</h2>
+      </section>
+
+      <section id="contact" className="bg-white py-16 text-center">
+        <h2 className="mb-6 text-4xl font-bold">Contact Us</h2>
+        <p>2848 Elm St.<br/>Lima, OH 45805</p>
+        <p className="mt-4">(419) 236-7697</p>
+        <p>risethrive26@gmail.com</p>
+      </section>
+    </main>
   );
 }

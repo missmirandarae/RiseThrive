@@ -32,7 +32,31 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  await supabase.auth.getUser();
+  // Get the currently logged-in user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const pathname = request.nextUrl.pathname;
+
+  // Protect admin pages
+  if (pathname.startsWith("/admin")) {
+    if (!user) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    // Only your admin account can access /admin
+    if (user.email !== "risethrive26@gmail.com") {
+      return NextResponse.redirect(new URL("/parent", request.url));
+    }
+  }
+
+  // Protect parent pages
+  if (pathname.startsWith("/parent")) {
+    if (!user) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
 
   return response;
 }
