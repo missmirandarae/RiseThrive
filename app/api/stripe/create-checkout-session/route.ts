@@ -29,7 +29,8 @@ export async function POST(request: Request) {
 
      success_url: "https://rise-thrive-zeta.vercel.app/parent/payment-success",
 
-cancel_url: "https://rise-thrive-zeta.vercel.app/parent/payments",
+cancel_url: "https://rise-thrive-zeta.vercel.app/parent/payments",i changed it to vecicial
+
     });
 
     return NextResponse.json({
