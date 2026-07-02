@@ -31,7 +31,7 @@ function LoginForm() {
       return;
     }
 
-cconst adminEmails = [
+const adminEmails = [
   "mcclellandeshanna82@icloud.com",
   "raeyeager05@icloud.com",
 ];
